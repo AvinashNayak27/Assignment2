@@ -9,7 +9,7 @@ function AddPost({ userid }) {
   const [tags, settags] = useState([]);
   const [tagstext, settagstext] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
-  const str = selectedTags.map((element) => `<${element.tag_name}>`).join("");
+  const str = selectedTags.map(element => `<${element.tag_name}>`).join("");
   console.log(str);
   const router = useRouter();
 
@@ -42,7 +42,7 @@ function AddPost({ userid }) {
   const submitData = async (e) => {
     e.preventDefault();
     try {
-      const body = { title, text, userid, str };
+      const body = { title, text, userid ,str };
       await fetch("/api/post/post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -108,56 +108,51 @@ function AddPost({ userid }) {
             </h1>
             <div style={{ display: "flex", flexWrap: "wrap" }}>
               {tags.map((tag) => (
-                <li key={tag.id}>
-                  <a
-                    style={{
-                      backgroundColor: selectedTags.includes(tag)
-                        ? "green"
-                        : "#f1f1f1",
-                      borderRadius: "10px",
-                      padding: "5px 10px",
-                      marginRight: "10px",
-                      marginBottom: "10px",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleTagClick(tag)}
-                  >
-                    {tag.tag_name}
-                  </a>
-                </li>
+                <a
+                  key={tag.id}
+                  style={{
+                    backgroundColor: selectedTags.includes(tag)
+                      ? "green"
+                      : "#f1f1f1",
+                    borderRadius: "10px",
+                    padding: "5px 10px",
+                    marginRight: "10px",
+                    marginBottom: "10px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleTagClick(tag)}
+                >
+                  {tag.tag_name}
+                </a>
               ))}
             </div>
           </div>
           {selectedTags.length > 0 && (
-            <div>
-              <h1
+          <div>
+          <h1
+            style={{ fontSize: "18px", fontWeight: "bold", marginTop: "10px" }}
+          >
+           Selected Tags :
+          </h1>
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            {selectedTags.map((tag) => (
+              <a
+                key={tag.id}
                 style={{
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  marginTop: "10px",
+                  backgroundColor: "green",
+                  borderRadius: "10px",
+                  padding: "5px 10px",
+                  marginRight: "10px",
+                  marginBottom: "10px",
+                  cursor: "pointer",
                 }}
               >
-                Selected Tags :
-              </h1>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {selectedTags.map((tag) => (
-                  <a
-                    key={tag.id}
-                    style={{
-                      backgroundColor: "green",
-                      borderRadius: "10px",
-                      padding: "5px 10px",
-                      marginRight: "10px",
-                      marginBottom: "10px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {tag.tag_name}
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
+                {tag.tag_name}
+              </a>
+            ))}
+          </div>
+          </div>
+        )}
 
           <button
             type="submit"
